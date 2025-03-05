@@ -1,0 +1,35 @@
+﻿@model List<MvcWhatsUp.Models.User>
+
+@{
+	ViewData["Title"] = "Users";
+}
+
+<div class ="text-center">
+	<h1 class="display-4">Users</h1>
+	<p>Number of users in the list: @Model.Count</p>
+</div>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Mobile number</th>
+			<th>Email address</th>
+		</tr>
+	</thead>
+	<tbody>
+		@{
+			foreach (var user in Model)
+			{
+				<tr>
+					<td>@user.UserId</td>
+					<td>@user.UserName</td>
+					<td>@user.MobileNumber</td>
+					<td>@user.EmailAddress</td>	
+				</tr>
+			}
+		}
+	</tbody>
+
+</table>
