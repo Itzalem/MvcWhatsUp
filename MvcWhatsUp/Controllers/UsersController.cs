@@ -83,7 +83,22 @@ namespace MvcWhatsUp.Controllers
 			return View(user);
 		}
 
-		/*
+		// POST: Users/Edit/5
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit([Bind(Include = "Id,Name,Email,Phone")] User user)
+		{
+			if (ModelState.IsValid)
+			{
+				db.Entry(user).State = EntityState.Modified;
+				db.SaveChanges();
+				return RedirectToAction("Index");
+			}
+
+			return View(user);
+		}
+
+		/* OLD CODE FOR EDIT!!!
 		// POST: UsersController/Edit
 		[HttpPost]
 		public ActionResult Edit(User user)
@@ -103,6 +118,35 @@ namespace MvcWhatsUp.Controllers
 			}
 		}
 
+		 */
+
+		//NEW FEEDBACK CODE FOR DELETE!!!
+		// GET: Users/Delete/5
+		public ActionResult Delete(int? id)
+		{
+			if (id == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+
+			var user = db.Users.Find(id);
+			if (user == null)
+				return HttpNotFound();
+
+			return View(user);
+		}
+
+		// POST: Users/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteConfirmed(int id)
+		{
+			var user = db.Users.Find(id);
+			db.Users.Remove(user);
+			db.SaveChanges();
+			return RedirectToAction("Index");
+		}
+
+		/* OLD CODE BEFORE FEEDBACK FOR DELETE!!!
 		// GET: UsersController/Delete
 		public ActionResult Delete(int? id)
 		{
@@ -113,7 +157,6 @@ namespace MvcWhatsUp.Controllers
 			User? user = _usersRepository.GetById((int)id);
 			return View(user);
 		}
-
 
 		// POST: UsersController/Delete/
 		[HttpPost]
@@ -133,5 +176,6 @@ namespace MvcWhatsUp.Controllers
 				return View(user);
 			}
 		}
+		*/
 	}
 }
