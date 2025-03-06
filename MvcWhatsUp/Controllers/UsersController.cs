@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MvcWhatsUp.Models;
 using MvcWhatsUp.Repositories;
+using System.Net;
 
 namespace MvcWhatsUp.Controllers
 {
@@ -71,16 +72,18 @@ namespace MvcWhatsUp.Controllers
 		public ActionResult Edit(int? id)
 		{
 			if (id == null)
-			{
-				return NotFound();
-			}
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-			// get user via repository
-			User? user = _usersRepository.GetById((int)id);
+
+			var user = db.Users.Find(id);
+			if (user == null)
+				return HttpNotFound();
+
+
 			return View(user);
 		}
 
-
+		/*
 		// POST: UsersController/Edit
 		[HttpPost]
 		public ActionResult Edit(User user)
