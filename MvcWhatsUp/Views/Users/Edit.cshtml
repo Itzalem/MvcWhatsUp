@@ -1,24 +1,36 @@
 ﻿@model MvcWhatsUp.Models.User
 @{
-	ViewData["Title"] = "Edit User";
+    ViewData["Title"] = "Edit User";
 }
 
-<h4>Edit User</h4>
-<form action="/Users/Edit" method="POST">
-	<input hidden type="number" name="UserId" value="@Model?.UserId" />
-	<div class="form-group py-2">
-		<label for="UserName">Name:</label>
-		<input type="text" id="UserName" name="UserName" class="form-control" required value="@Model?.UserName" />
-	</div>
-	<div class="form-group py-2">
-		<label for="Mobile Number">Mobile number:</label>
-		<input type="text" id="MobileNumber" name="MobileNumber" class="form-control" required value="@Model?.MobileNumber" />
-	</div>
-	<div class="form-group py-2">
-		<label for="EmailAddress">Email address:</label>
-		<input type="text" id="EmailAddress" name="EmailAddress" class="form-control" required value="@Model?.EmailAddress  />
-	</div>
-	<button type="submit" class="btn btn-primary">Save</button>
-</form>
+<h1>Edit User</h1>
 
-<a href="Users/IndexUsers">Back to List</a>
+<form action="/Users/Edit/@Model?.UserId" method="POST">
+
+    <div class="form-group py-2">
+            <label for="UserName">Name:</label>
+        <input type="text" id="UserName" name="UserName" class="form-control" required value="@Model.UserName" />
+            <input type="hidden" name="UserId" value="@Model.UserId" /> <!--IMPORTANT TO ACTUALLY RECIEVE AN ID-->
+        </div>
+
+    <div class="form-group py-2">
+            <label for="MobileNumber">Mobile Number:</label>
+        <input type="tel" id="MobileNumber" name="MobileNumber" class="form-control" required value="@Model.MobileNumber"
+                    pattern="[0-9+ -]*" />
+        </div>
+
+    <div class="form-group py-2">
+            <label for="EmailAddress">Email:</label>
+        <input type="email" id="EmailAddress" name="EmailAddress" class="form-control" required value="@Model.EmailAddress" />
+        </div>
+
+    <div class="form-group py-2">
+            <label for="Password">Password:</label>
+        <input type="password" id="Password" name="Password" class="form-control" required value="@Model.Password" />
+    </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        
+        <a href="/Users/IndexUsers" class="btn-custom">Cancel</a>
+    
+</form>

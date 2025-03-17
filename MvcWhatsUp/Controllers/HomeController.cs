@@ -29,18 +29,7 @@ namespace MvcWhatsUp.Controllers
         }
         
 
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public string Login(string name, string password)
-        {
-            return $"Login data \nUser: {name} \nPassword: {password}";
-        }
-
+        
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

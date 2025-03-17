@@ -2,6 +2,13 @@
 
 @{
 	ViewData["Title"] = "Users";
+
+	int loggedInUserId = -1;
+	if (ViewData["UserId"] != null)
+	{
+		loggedInUserId = int.Parse(ViewData["UserId"].ToString());
+	}
+
 }
 
 <div class ="text-center">
@@ -9,6 +16,9 @@
 	<p>Number of users in the list: @Model.Count</p>
 </div>
 
+
+
+<p>All users:</p>
 <table class="table">
 	<thead>
 		<tr>
@@ -22,11 +32,24 @@
 		@{
 			foreach (var user in Model)
 			{
+				var rowStyle = "";
+				@if (user.UserId == loggedInUserId)
+				{
+					rowStyle = "class=table-info";
+				}
 				<tr>
 					<td>@user.UserId</td>
 					<td>@user.UserName</td>
 					<td>@user.MobileNumber</td>
 					<td>@user.EmailAddress</td>
+					<td>
+						<a asp-controller="Users" asp-action="Edit" asp-route-id="@user.UserId" class="btn-custom">Edit</a>
+						<a asp-controller="Users" asp-action="Delete" asp-route-id="@user.UserId" class="btn-custom">Delete</a>
+						@if ((loggedInUserId != -1) && (user.UserId != int.Parse(loggedInUserId.ToString())))
+						{
+							<a href="/Chats/DisplayChat/@user.UserId">Display Chat</a>
+						}
+					</td>
 				</tr>
 			}
 		}
@@ -34,6 +57,4 @@
 
 </table>
 
-<a href="/Users/Create">Create User</a>
-<a href="/Users/Edit">Edit User</a> 
-<a href="/Users/Delete">Delete User</a>
+<a href="/Users/Create" class="btn-custom">Create User</a>

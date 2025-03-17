@@ -16,9 +16,14 @@ namespace MvcWhatsUp.Controllers
 
 		public IActionResult IndexUsers()
 		{
+			//get logged in user id via cookie
+			string? userId = Request.Cookies["UserId"];
+
+			//pass the logged in user id to the view
+			ViewData["UserId"] = userId;
+
 			//get all users via repository
 			List<User> users = _usersRepository.GetAll();
-
 			// pass the list to the View
 			return View(users);
 		}
@@ -36,27 +41,12 @@ namespace MvcWhatsUp.Controllers
 		{
 			try
 			{
-				//loc 39-43 added to verify that the controller is recieving the data
-				Console.WriteLine($"UserId: {user.UserId}");
-				Console.WriteLine($"UserName: {user.UserName}");
-				Console.WriteLine($"MobileNumber: {user.MobileNumber}");
-				Console.WriteLine($"EmailAddress: {user.EmailAddress}");
-				Console.WriteLine($"Password: {user.Password}");
-
 				// add user via repository
 				_usersRepository.Add(user);
 
-				// loc 49-54 added to verify that the user is in the list 
-				var usuarios = _usersRepository.GetAll();
-				Console.WriteLine("Usuarios en la lista después de agregar:");
-				foreach (var u in usuarios)
-				{
-					Console.WriteLine($"UserId: {u.UserId}, UserName: {u.UserName}, MobileNumber: {u.MobileNumber}, EmailAddress: {u.EmailAddress}, Password: {u.Password}");
-				}
 
 				// go back to user list (via Index)
 				return RedirectToAction("IndexUsers");
-
 			}
 			catch (Exception ex)
 			{
@@ -72,81 +62,31 @@ namespace MvcWhatsUp.Controllers
 		public ActionResult Edit(int? id)
 		{
 			if (id == null)
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			{
+				return NotFound();
+			}
 
-
-			var user = db.Users.Find(id);
-			if (user == null)
-				return HttpNotFound();
-
-
+			User? user = _usersRepository.GetById((int)id);
 			return View(user);
 		}
 
 		// POST: Users/Edit/5
 		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "Id,Name,Email,Phone")] User user)
-		{
-			if (ModelState.IsValid)
-			{
-				db.Entry(user).State = EntityState.Modified;
-				db.SaveChanges();
-				return RedirectToAction("Index");
-			}
-
-			return View(user);
-		}
-
-		/* OLD CODE FOR EDIT!!!
-		// POST: UsersController/Edit
-		[HttpPost]
-		public ActionResult Edit(User user)
+		public IActionResult Edit(User user)
 		{
 			try
 			{
-				// update user via repository
 				_usersRepository.Update(user);
 
-				// go back to users list (via Index)
-				return RedirectToAction("Index");
+				return RedirectToAction("IndexUsers");
 			}
 			catch (Exception ex)
 			{
-				// something's wrong, go back to view with user
 				return View(user);
 			}
 		}
 
-		 */
-
-		//NEW FEEDBACK CODE FOR DELETE!!!
-		// GET: Users/Delete/5
-		public ActionResult Delete(int? id)
-		{
-			if (id == null)
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-
-			var user = db.Users.Find(id);
-			if (user == null)
-				return HttpNotFound();
-
-			return View(user);
-		}
-
-		// POST: Users/Delete/5
-		[HttpPost, ActionName("Delete")]
-		[ValidateAntiForgeryToken]
-		public ActionResult DeleteConfirmed(int id)
-		{
-			var user = db.Users.Find(id);
-			db.Users.Remove(user);
-			db.SaveChanges();
-			return RedirectToAction("Index");
-		}
-
-		/* OLD CODE BEFORE FEEDBACK FOR DELETE!!!
+				
 		// GET: UsersController/Delete
 		public ActionResult Delete(int? id)
 		{
@@ -160,22 +100,54 @@ namespace MvcWhatsUp.Controllers
 
 		// POST: UsersController/Delete/
 		[HttpPost]
-		public ActionResult Delete(User user)
+		public IActionResult Delete(int UserId)
 		{
 			try
 			{
-				// delete user via repository
-				_usersRepository.Delete(user);
+				var user = _usersRepository.GetById(UserId);
+				if (user == null)
+				{
+					return NotFound(); // Si el usuario no existe, devolver un error 404
+				}
 
-				// go back to user list (via Index)
-				return RedirectToAction("IndexUsers");
+				_usersRepository.Delete(user); // Eliminar el usuario
+
+				return RedirectToAction("IndexUsers"); // Volver a la lista
 			}
 			catch (Exception ex)
 			{
-				// something's wrong, go back to view with user
-				return View(user);
+				return BadRequest("Error eliminando usuario: " + ex.Message);
 			}
 		}
-		*/
-	}
+
+
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(LoginModel loginModel)
+        {
+			//get user (from repository) matching username and password
+			User? user = _usersRepository.GetByLoginCredentials(
+							loginModel.UserName, loginModel.Password);
+			if (user == null)
+			{
+				//bad login, go back to from
+				return View(loginModel);
+			}
+			else
+			{
+				// use a cookie to remember logged in user
+				Response.Cookies.Append("UserId", user.UserId.ToString());
+
+				//redirect to list of users (via URL /Users/Index)
+				return RedirectToAction("IndexUsers", "Users");
+			}
+        }
+
+    }
+
 }

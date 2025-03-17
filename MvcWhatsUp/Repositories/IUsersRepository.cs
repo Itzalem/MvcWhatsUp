@@ -6,6 +6,7 @@ namespace MvcWhatsUp.Repositories
 	{
 		List<User> GetAll();
 		User GetById(int userId);
+		User GetByLoginCredentials(string userName, string password);
 		void Add(User user);
 		void Update(User user);
 		void Delete(User user);

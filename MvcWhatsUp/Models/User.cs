@@ -10,6 +10,11 @@
 
 		public User()
 		{
+			UserId = 0;
+			UserName = "";
+			MobileNumber = "";
+			EmailAddress = "";
+			Password = "";
 		}
 
 		public User (int id, string name, string mobileNumber, string emailAddress, string password)
@@ -21,4 +26,6 @@
 			Password = password;
 		}
 	}
+
+
 }

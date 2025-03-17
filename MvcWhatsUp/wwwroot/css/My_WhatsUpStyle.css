@@ -1,49 +1,53 @@
 ﻿/* Base styles */
 body {
-    font-family: 'Arial', sans-serif; /* Modern system font */
+    font-family: 'Lato', Helvetica, sans-serif;
     font-size: 16px;
     color: #333;
     background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Asegura que el body ocupe toda la altura de la pantalla */
 }
 
-/* Header and Navbar */
+h1 {
+    font-family: Georgia, serif;
+    font-weight: bold; /* Hace que el texto sea más grueso */
+}
+
+/* Contenedor principal */
+.container {
+    flex-grow: 1; /* Expande el contenido para empujar el footer hacia abajo */
+    padding-top: 20px;
+}
+
+/* Navbar */
 header {
-    background-color: #ADD8E6 !important; /* Blue background */
+    background-color: #ADD8E6 !important; /* Azul claro */
+    padding: 10px 0; /* Ajuste para que no se vea tan grande */
 }
 
+/* Navbar links */
 .navbar-brand, .nav-link {
     color: #000000 !important;
     font-size: 18px;
-}
-
-.navbar-brand {
-    font-weight: bold;
 }
 
 .navbar-toggler-icon {
     background-color: #ffffff;
 }
 
-/* Active navbar item */
+/* Activo */
 .navbar-nav .nav-item .nav-link.active {
-    background-color: #0056b3;
-}
-
-/* On hover for nav items */
-.navbar-nav .nav-item .nav-link:hover {
-    background-color: #0056b3;
+    background-color: #004080 !important; /* Azul más visible */
+    color: white !important;
     border-radius: 5px;
 }
 
-/* Container for main content */
-.container {
-    padding-top: 20px;
-}
-
-/* Main content area */
-main {
-    font-size: 18px;
-    line-height: 1.6;
+/* Hover */
+.navbar-nav .nav-item .nav-link:hover {
+    background-color: #007bff !important;
+    color: white !important;
+    border-radius: 5px;
 }
 
 /* Footer */
@@ -51,8 +55,12 @@ footer {
     background-color: #343a40;
     color: #ffffff;
     padding: 20px 0;
+    text-align: center;
+    margin-top: auto; /* Se mantiene al fondo */
+    width: 100%;
 }
 
+    /* Links en el footer */
     footer a {
         color: #ffffff;
     }
@@ -61,31 +69,25 @@ footer {
             color: #007bff;
         }
 
-/* Headings */
-h1, h2, h3, h4, h5, h6 {
-    color: #333;
-    font-weight: bold;
-    font-size: 1.5em;
-}
-
-h1 {
-    font-size: 2.5em;
-}
-
-/* Button styles */
-button, .btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
+/* Botones con borde circular y fondo */
+button, .btn-custom {
+    background-color: #1560BD !important; /* Azul claro para el fondo */
+    color: white !important;
+    border: 3px solid #003366 !important; /* Azul oscuro para el borde */
+    border-radius: 35% !important; /* Hace el botón redondo */
+    padding: 8px 10px !important; /* Ajuste para que se vea bien el círculo */
+    font-size: 16px !important;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-    button:hover, .btn:hover {
-        background-color: #0056b3;
+    /* Hover en los botones */
+    button:hover, .btn-custom:hover {
+        background-color: #ADD8E6 !important; /* Azul más claro cuando se pasa el mouse */
+        color: black !important;
+        
+        font-style: italic;
+        text-decoration: none;
     }
 
 /* Links */
@@ -97,10 +99,10 @@ a {
 
     a:hover {
         color: #0056b3;
-        text-decoration: underline;
+        text-decoration: none;
     }
 
-/* Responsive adjustments */
+/* Responsive */
 @media (max-width: 768px) {
     .navbar-collapse {
         text-align: center;
