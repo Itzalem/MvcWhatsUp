@@ -74,15 +74,11 @@ namespace MvcWhatsUp.Repositories
 					return null;
 				}
 			}
-			/* Esto estaba buscando un usuario en la lista de memoria
-			List<User> users = GetAll();
-			return users.FirstOrDefault(u => u.UserId == userId);
-			*/
 		}
 
 		public User? GetByLoginCredentials(string userName, string password)
 		{
-			//Este codifgo busca un usuario segun el id directamente en la base de datos y lo devuelve al final
+			//Este codigo busca un usuario segun el id directamente en la base de datos y lo devuelve al final
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{
 				string query = "SELECT UserId, UserName, MobileNumber, EmailAddress, Password FROM Users WHERE UserName = @UserName AND Password = @Password";
@@ -135,11 +131,6 @@ namespace MvcWhatsUp.Repositories
 					throw new Exception("Adding user failed");
 				}
 
-				//esto me esta poniendo el usuario doble si lo dejo en el codigo, hace lo mismo que xevute scalar
-				//user.UserId = Convert.ToInt32(command.ExecuteScalar()); //no tengo idea de loq eu dive aqui pero es para coger el user id y guardarlo en el usuario
-				//int nrOfRowsAffected = command.ExecuteNonQuery();
-				//if (nrOfRowsAffected != 1)
-				//throw new Exception("Adding user failed");
 			}
 		}
 

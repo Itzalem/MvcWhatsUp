@@ -131,11 +131,11 @@ namespace MvcWhatsUp.Controllers
         public ActionResult Login(LoginModel loginModel)
         {
 			//get user (from repository) matching username and password
-			User? user = _usersRepository.GetByLoginCredentials(
-							loginModel.UserName, loginModel.Password);
+			User? user = _usersRepository.GetByLoginCredentials(loginModel.UserName, loginModel.Password);
 			if (user == null)
 			{
 				//bad login, go back to from
+				ViewBag.ErrorMessage = "Bad User Name/Password Combination";
 				return View(loginModel);
 			}
 			else

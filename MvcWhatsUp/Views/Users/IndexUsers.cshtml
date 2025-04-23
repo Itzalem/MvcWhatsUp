@@ -18,6 +18,11 @@
 
 
 
+
+
+<a href="/Users/Create" class="btn-custom">Create User</a>
+<a href="/Users/Login" class="btn-custom">Login</a>
+
 <p>All users:</p>
 <table class="table">
 	<thead>
@@ -47,7 +52,7 @@
 						<a asp-controller="Users" asp-action="Delete" asp-route-id="@user.UserId" class="btn-custom">Delete</a>
 						@if ((loggedInUserId != -1) && (user.UserId != int.Parse(loggedInUserId.ToString())))
 						{
-							<a href="/Chats/DisplayChat/@user.UserId">Display Chat</a>
+							<a href="/Chats/DisplayChats/@user.UserId">Display Chat</a>
 						}
 					</td>
 				</tr>
@@ -57,4 +62,4 @@
 
 </table>
 
-<a href="/Users/Create" class="btn-custom">Create User</a>
+

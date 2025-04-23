@@ -18,5 +18,12 @@
 		</div>
 
 		<button type="submit" class="btn btn-primary">Login</button>
+
+		@{
+			if (ViewBag.ErrorMessage != null)
+			{
+			<div class="alert alert-danger" role="alert">@ViewBag.ErrorMessage</div>
+			}
+		}
 </form>
 

@@ -1,21 +1,29 @@
 ﻿namespace MvcWhatsUp.Models
 {
-	public class Message
-	{
-		public string Name { get; set; }
-		public string Text { get; set; }
+	public class Message	{
+		
+
+		public int MessageId { get; set; }
+		public int SenderUserId { get; set; }
+		public int ReceiverUserId { get; set; }
+		public string MessageText { get; set; }
+
+		public DateTime SendAt { get; set; }
 
 		public Message()
 		{
-			Name = "";
-			Text = "";
 		}
 
-		public Message(string name, string message)
+
+		public Message(int messageId, int senderUserId, int receiverUserId, string messageText, DateTime sendAt)
 		{
-				Name = name;
-				Text = message;
+			MessageId = messageId;
+			SenderUserId = senderUserId;
+			ReceiverUserId = receiverUserId;
+			MessageText = messageText;
+			SendAt = sendAt;
 		}
+
 		
 	}
 }
